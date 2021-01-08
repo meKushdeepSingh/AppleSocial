@@ -21,3 +21,10 @@ export const regexStrings = {
 export const messageStings = {
 
 }
+
+export const imageStings = {
+    icName: require('../assets/images/id-card.png'),
+    icEmail: require('../assets/images/email.png'),
+    icPhone: require('../assets/images/phone-numbers-call.png'),
+    icPassword: require('../assets/images/padlock.png'),
+}

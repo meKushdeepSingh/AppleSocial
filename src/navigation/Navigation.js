@@ -8,7 +8,7 @@ import SocialLoginScreen from '../container/auth';
 import AccountScreen from '../container/account';
 import HomeScreen from '../container/home';
 import NotificationScreen from '../container/notification';
-import SignUpScreen from '../container/signup/SignUpScreen';
+import SignUpScreen from '../container/signup';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
