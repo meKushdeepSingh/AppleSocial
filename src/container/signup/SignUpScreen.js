@@ -10,11 +10,15 @@ import {
 } from 'react-native'
 import { colors } from '../../utils/colors'
 import { useForm, Controller } from "react-hook-form";
+import { FieldInput } from '../../customComponents/FieldInput';
+import validation from '../../utils/validation';
 
 
 export default SignUpScreen = () => {
 
-    const { control, handleSubmit, errors } = useForm({ mode: 'all' });
+    const { control, handleSubmit, errors, watch } = useForm({ mode: 'all' });
+
+    const currentPassword = watch('password', '')
 
     const onSubmit = data => console.log(data);
 
@@ -29,87 +33,71 @@ export default SignUpScreen = () => {
             justifyContent: 'center'
         }}>
             <View style={styles.formContainer}>
-                <Controller
-                    control={control}
-                    render={({ onChange, onBlur, value }) => (
-                        <TextInput
-                            style={styles.inputStyle}
-                            onBlur={onBlur}
-                            onChangeText={value => onChange(value)}
-                            value={value}
-                        />
-                    )}
-                    name="firstName"
-                    rules={{
-                        required: { value: true, message: 'This is required.' },
-                        maxLength: { value: 10, message: 'Name should be of atmost 10 characters.' }
-                    }}
-                    defaultValue=""
-                />
-                {errors?.firstName?.message && <Text style={styles.errorMsg}>{errors.firstName.message}</Text>}
 
-                <Controller
+                <FieldInput
                     control={control}
-                    render={({ onChange, onBlur, value }) => (
-                        <TextInput
-                            style={styles.inputStyle}
-                            onBlur={onBlur}
-                            onChangeText={value => onChange(value)}
-                            value={value}
-                        />
-                    )}
-                    rules={{
-                        required: { value: true, message: 'This is required.' },
-                        maxLength: { value: 10, message: 'Name should be of atmost 10 characters.' }
-                    }}
-                    name="lastName"
-                    defaultValue=""
+                    inputStyle={styles.inputStyle}
+                    rules={validation.lastName}
+                    name='firstName'
+                    msg={errors?.firstName?.message && errors.firstName.message}
+                    placeholder='Enter First Name'
+                    defaultValue=''
                 />
-                {errors?.lastName?.message && <Text style={styles.errorMsg}>{errors.lastName.message}</Text>}
 
-                <Controller
+                <FieldInput
                     control={control}
-                    render={({ onChange, onBlur, value }) => (
-                        <TextInput
-                            style={styles.inputStyle}
-                            onBlur={onBlur}
-                            onChangeText={value => onChange(value)}
-                            value={value}
-                            keyboardType='number-pad'
-                        />
-                    )}
-                    rules={{
-                        required: { value: true, message: 'This is required.' },
-                        pattern: {
-                            value: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im,
-                            message: 'Please enter a valid number.'
-                        }
-                    }}
-                    name="phone"
-                    defaultValue=""
+                    inputStyle={styles.inputStyle}
+                    rules={validation.lastName}
+                    name='lastName'
+                    msg={errors?.lastName?.message && errors.lastName.message}
+                    placeholder='Enter Last Name'
+                    defaultValue=''
                 />
-                {errors?.phone?.message && <Text style={styles.errorMsg}>{errors.phone.message}</Text>}
 
-                <Controller
+                <FieldInput
                     control={control}
-                    render={({ onChange, onBlur, value }) => (
-                        <TextInput
-                            style={styles.inputStyle}
-                            onBlur={onBlur}
-                            onChangeText={value => onChange(value)}
-                            value={value}
-                            secureTextEntry={true}
-                        />
-                    )}
-                    rules={{
-                        required: { value: true, message: 'This is required.' },
-                        maxLength: { value: 8, message: 'Password should be of atmost 8 characters.' },
-                        minLength: { value: 3, message: 'Password should be of atleast 3 characters.' }
-                    }}
-                    name="password"
-                    defaultValue=""
+                    inputStyle={styles.inputStyle}
+                    rules={validation.phone}
+                    name='phone'
+                    msg={errors?.phone?.message && errors.phone.message}
+                    placeholder='Enter Phone Number'
+                    keyboardType='phone-pad'
+                    defaultValue=''
                 />
-                {errors?.password?.message && <Text style={styles.errorMsg}>{errors.password.message}</Text>}
+
+                <FieldInput
+                    control={control}
+                    inputStyle={styles.inputStyle}
+                    rules={validation.email}
+                    name='email'
+                    msg={errors?.email?.message && errors.email.message}
+                    placeholder='Enter Email'
+                    keyboardType='email-address'
+                    defaultValue=''
+                />
+
+                <FieldInput
+                    control={control}
+                    inputStyle={styles.inputStyle}
+                    rules={validation.password}
+                    name='password'
+                    msg={errors?.password?.message && errors.password.message}
+                    placeholder='Enter Password'
+                    defaultValue=''
+                    secureTextEntry={true}
+                />
+
+                <FieldInput
+                    control={control}
+                    inputStyle={styles.inputStyle}
+                    rules={validation.confirmPassword(currentPassword)}
+                    name='confirmPassword'
+                    msg={errors?.confirmPassword?.message && errors.confirmPassword.message}
+                    placeholder='Enter Password'
+                    defaultValue=''
+                    secureTextEntry={true}
+                />
+
 
                 <Button title="Submit" onPress={handleSubmit(onSubmit)} />
             </View>
