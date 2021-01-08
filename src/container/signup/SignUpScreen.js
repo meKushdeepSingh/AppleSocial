@@ -12,15 +12,20 @@ import { colors } from '../../utils/colors'
 import { useForm, Controller } from "react-hook-form";
 import { FieldInput } from '../../customComponents/FieldInput';
 import validation from '../../utils/validation';
+import { successToast } from '../../utils/gernricUtils';
 
 
-export default SignUpScreen = () => {
+export default SignUpScreen = (props) => {
 
     const { control, handleSubmit, errors, watch } = useForm({ mode: 'all' });
 
     const currentPassword = watch('password', '')
 
-    const onSubmit = data => console.log(data);
+    const onSubmit = data => {
+        console.log(data)
+        successToast('User Registered Succesfully')
+        props.navigation.navigate('MainTab')
+    };
 
     useEffect(() => {
         console.log('error emit', errors)
@@ -37,7 +42,7 @@ export default SignUpScreen = () => {
                 <FieldInput
                     control={control}
                     inputStyle={styles.inputStyle}
-                    rules={validation.lastName}
+                    rules={validation.firstName}
                     name='firstName'
                     msg={errors?.firstName?.message && errors.firstName.message}
                     placeholder='Enter First Name'
@@ -74,6 +79,7 @@ export default SignUpScreen = () => {
                     placeholder='Enter Email'
                     keyboardType='email-address'
                     defaultValue=''
+                    autoCapitalize='none'
                 />
 
                 <FieldInput
