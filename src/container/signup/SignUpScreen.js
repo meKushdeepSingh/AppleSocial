@@ -14,23 +14,46 @@ import { FieldInput } from '../../customComponents/FieldInput';
 import validation from '../../utils/validation';
 import { successToast } from '../../utils/gernricUtils';
 import { imageStings } from '../../utils/strings';
+import { selectSport, userData } from '../../utils/staticData';
+import { FieldSelect } from '../../customComponents/FieldSelect';
+import { PhoneFieldInput } from '../../customComponents/PhoneFieldInput';
+
+
 
 
 export default SignUpScreen = (props) => {
 
-    const { control, handleSubmit, errors, watch } = useForm({ mode: 'all' });
+    const { control, handleSubmit, errors, watch, setValue } = useForm({ mode: 'all' });
 
     const currentPassword = watch('password', '')
 
-    const onSubmit = data => {
-        console.log(data)
-        successToast('User Registered Succesfully')
-        props.navigation.navigate('MainTab')
-    };
+    // initialState setup
+
+    const [countryData, setcountryData] = useState({
+        phoneCode: '+1',
+        flag: '🇺🇸',
+    })
+
+
+    // auto update data on component mount
 
     useEffect(() => {
-        console.log('error emit', errors)
-    }, [errors])
+        if (userData) {
+            Object.entries(userData).map(([key, value]) => {
+                setValue(key, value)
+            });
+            console.log(Object.entries(userData))
+        }
+        return () => {
+
+        }
+    }, [userData])
+
+    const onSubmit = data => {
+        console.log('on submit press===>', data)
+        successToast('User Registered Succesfully')
+        // props.navigation.navigate('MainTab')
+    };
 
     return (
         <SafeAreaView style={{
@@ -48,7 +71,6 @@ export default SignUpScreen = (props) => {
                     name='firstName'
                     msg={errors?.firstName?.message && errors.firstName.message}
                     placeholder='Enter First Name'
-                    defaultValue=''
                     icon={imageStings.icName}
                 />
 
@@ -60,11 +82,10 @@ export default SignUpScreen = (props) => {
                     name='lastName'
                     msg={errors?.lastName?.message && errors.lastName.message}
                     placeholder='Enter Last Name'
-                    defaultValue=''
                     icon={imageStings.icName}
                 />
 
-                <FieldInput
+                <PhoneFieldInput
                     control={control}
                     inputStyle={styles.inputStyle}
                     inputViewStyle={styles.inputViewStyle}
@@ -72,12 +93,12 @@ export default SignUpScreen = (props) => {
                     name='phone'
                     msg={errors?.phone?.message && errors.phone.message}
                     placeholder='Enter Phone Number'
-                    keyboardType='phone-pad'
-                    defaultValue=''
-                    icon={imageStings.icPhone}
+                    flagValue={countryData.flag}
+                    onSelectCode={(phoneCode, flag) => setcountryData({ phoneCode, flag })}
                 />
 
                 <FieldInput
+                    type='email'
                     control={control}
                     inputStyle={styles.inputStyle}
                     inputViewStyle={styles.inputViewStyle}
@@ -85,13 +106,11 @@ export default SignUpScreen = (props) => {
                     name='email'
                     msg={errors?.email?.message && errors.email.message}
                     placeholder='Enter Email'
-                    keyboardType='email-address'
-                    defaultValue=''
-                    autoCapitalize='none'
                     icon={imageStings.icEmail}
                 />
 
                 <FieldInput
+                    type='password'
                     control={control}
                     inputStyle={styles.inputStyle}
                     inputViewStyle={styles.inputViewStyle}
@@ -99,24 +118,30 @@ export default SignUpScreen = (props) => {
                     name='password'
                     msg={errors?.password?.message && errors.password.message}
                     placeholder='Enter Password'
-                    defaultValue=''
-                    secureTextEntry={true}
                     icon={imageStings.icPassword}
                 />
 
                 <FieldInput
+                    type='password'
                     control={control}
                     inputStyle={styles.inputStyle}
                     inputViewStyle={styles.inputViewStyle}
                     rules={validation.confirmPassword(currentPassword)}
                     name='confirmPassword'
                     msg={errors?.confirmPassword?.message && errors.confirmPassword.message}
-                    placeholder='Enter Password'
-                    defaultValue=''
-                    secureTextEntry={true}
+                    placeholder='Confirm Password'
                     icon={imageStings.icPassword}
                 />
 
+                <FieldSelect
+                    control={control}
+                    inputViewStyle={styles.inputViewStyle}
+                    rules={validation.required}
+                    items={selectSport}
+                    name='language'
+                    msg={errors?.language?.message && errors.language.message}
+                    icon={imageStings.icSport}
+                />
 
                 <Button title="Submit" onPress={handleSubmit(onSubmit)} />
             </View>

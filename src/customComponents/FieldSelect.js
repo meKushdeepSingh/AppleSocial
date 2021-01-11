@@ -8,10 +8,10 @@ import {
 } from 'react-native'
 import { Controller } from "react-hook-form";
 import { colors } from '../utils/colors';
+import RNPickerSelect from 'react-native-picker-select';
 
 
-export const FieldInput = ({
-    type,
+export const FieldSelect = ({
     msg,
     inputStyle,
     name,
@@ -19,6 +19,8 @@ export const FieldInput = ({
     control,
     icon,
     inputViewStyle,
+    items,
+    placeholder,
     ...props
 }) => {
 
@@ -34,15 +36,13 @@ export const FieldInput = ({
                                 source={icon}
                             />
                         }
-                        <TextInput
-                            style={inputStyle}
-                            onBlur={onBlur}
-                            onChangeText={value => onChange(value)}
+                        <RNPickerSelect
                             value={value}
-                            secureTextEntry={type === 'password' ? true : false}
-                            autoCapitalize={type === 'email' ? 'none' : 'sentences'}
-                            keyboardType={type === 'email' ? 'email-address' : 'default'}
-                            {...props}
+                            onValueChange={(value) => onChange(value)}
+                            items={items}
+                            placeholder={placeholder}
+                            style={pickerStyle}
+                        // {...props}
                         />
                     </View>
                 )}
@@ -57,12 +57,13 @@ export const FieldInput = ({
 
 const styles = StyleSheet.create({
     mainView: {
-        width: '100%'
+        width: '100%',
     },
     inputWrapper: {
         flexDirection: 'row',
         width: '100%',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingVertical: '3%',
     },
     icon: {
         height: 25,
@@ -76,3 +77,27 @@ const styles = StyleSheet.create({
         marginBottom: '2%',
     },
 })
+
+const pickerStyle = {
+    inputIOS: {
+        height: 30
+    },
+    inputAndroid: {
+    },
+    // placeholderColor: 'white',
+    underline: { borderTopWidth: 0 },
+    icon: {
+        position: 'absolute',
+        backgroundColor: 'transparent',
+        borderTopWidth: 5,
+        borderTopColor: '#00000099',
+        borderRightWidth: 5,
+        borderRightColor: 'transparent',
+        borderLeftWidth: 5,
+        borderLeftColor: 'transparent',
+        width: 0,
+        height: 0,
+        top: 20,
+        right: 15,
+    },
+};

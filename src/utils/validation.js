@@ -2,6 +2,12 @@ import { regexStrings, validationStings } from "./strings";
 
 
 const validation = {
+    required: {
+        required: {
+            value: true,
+            message: validationStings.required
+        }
+    },
     firstName: {
         required: {
             value: true,

@@ -27,4 +27,6 @@ export const imageStings = {
     icEmail: require('../assets/images/email.png'),
     icPhone: require('../assets/images/phone-numbers-call.png'),
     icPassword: require('../assets/images/padlock.png'),
+    icCross: require('../assets/images/close.png'),
+    icSport: require('../assets/images/running.png'),
 }
