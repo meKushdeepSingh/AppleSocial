@@ -29,4 +29,5 @@ export const imageStings = {
     icPassword: require('../assets/images/padlock.png'),
     icCross: require('../assets/images/close.png'),
     icSport: require('../assets/images/running.png'),
+    icCar: require('../assets/images/car.png'),
 }

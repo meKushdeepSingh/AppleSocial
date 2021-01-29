@@ -9,6 +9,7 @@ import AccountScreen from '../container/account';
 import HomeScreen from '../container/home';
 import NotificationScreen from '../container/notification';
 import SignUpScreen from '../container/signup';
+import AnimatedScreen from '../container/animation/AnimatedScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -26,6 +27,7 @@ const Navigation = () => {
 
     return (
         <Stack.Navigator headerMode='none'>
+            <Stack.Screen name='AnimatedScreen' component={AnimatedScreen} />
             <Stack.Screen name='Signup' component={SignUpScreen} />
             <Stack.Screen name='Social' component={SocialLoginScreen} />
             <Stack.Screen name='Account' component={AccountScreen} />
